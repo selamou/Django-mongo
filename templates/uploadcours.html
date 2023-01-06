@@ -1,0 +1,25 @@
+{% extends 'listdetail.html' %}
+
+{% block Cours %}
+
+<section style="background-color: #eee;">
+    <div class="text-center container py-5">
+      <h4 class="mt-4 mb-5"><strong> upload des nouveau {{type}} &nbsp;&nbsp;&nbsp; </strong></h4>
+  
+      <div class="container">
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% include 'form.html'%}
+            <input type="hidden"  name="Appartient" value="{{id}}">
+            <button type="submit" class="btn btn-success">Add</button>
+          </form>
+
+</div>
+</div>
+
+
+</div>
+</section>
+
+{% endblock %}

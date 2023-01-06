@@ -1,0 +1,90 @@
+<!-- templates/home.html-->
+{% extends 'base.html' %}
+{% load static %}
+{% block stylesheet %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block title %}Home{% endblock %}
+{% block bla %}<body style="background-color:#37517e;">{% endblock %}
+{% block content %}
+
+<header id="header" class="fixed-top ">
+  <div class="container d-flex align-items-center navbar-custom">
+    <h1 class="logo me-auto"><a class="navbar-brand">Welcome {{ user.username }}</a></h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMen" aria-controls="mainMen" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMen" aria-controls="mainMen" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMen" aria-controls="mainMen" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMen" aria-controls="mainMen" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMen" aria-controls="mainMen" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMen" aria-controls="mainMen" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMen" aria-controls="mainMen" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMen" aria-controls="mainMen" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMen" aria-controls="mainMen" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMen" aria-controls="mainMen" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <nav id="navbar "  class="navbar ">
+      <ul>
+        <li><a class="nav-link scrollto active" ></a></li>
+        <li><a class="nav-link scrollto" > </a></li>
+        <Li></Li><form class="form-inline my-2 my-lg-0">
+      
+          <a class="getstarted scrollto" href="{% url 'logout' %}">logout</a>
+        </form>
+      </li>
+      </ul>
+      <i class="bi bi-list mobile-nav-toggle"></i>
+    </nav><!-- .navbar -->
+
+  </div>
+</header><!-- End Header -->
+
+
+<!-- 
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+        <a class="navbar-brand">prof {{ user.username }}</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMen" aria-controls="mainMen" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  <div class="collapse navbar-collapse" id="mainMen">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'home'  %}">Home</a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link " href="{% url 'matier'  user.id %}">Matiere </a>
+      </li>
+
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      
+      <a class="btn btn-outline-success my-2 my-sm-0" href="{% url 'logout' %}">logout</a>
+    </form>
+    
+  </div>
+
+</nav> -->
+
+{% block contenu %}
+    {% endblock %}
+{% endblock %}

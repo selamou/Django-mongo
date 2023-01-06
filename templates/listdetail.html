@@ -1,0 +1,37 @@
+{% extends 'baseprof.html' %}
+{% load static %}
+
+
+{% block contenu %}
+<nav class="navbar navbar-expand-sm navbar-dark  bg-dark">
+    <div class="container"> 
+      <a class="navbar-brand" href="{% url 'detail'  id %}">Cours</a>
+
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <div class="collapse navbar-collapse" id="mainMenu">
+        
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+          <!-- <li class="nav-item ">
+            <a class="nav-link active" href="{% url 'matier'  user.id %}">Matiere </a>
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link active" href="{% url 'detailTD'  id %}">TD</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link " href="{% url 'detailTP'  id %}">TP</a>
+          </li>
+        </ul>
+           
+  
+      </div>
+    </div>
+  </nav>
+  {% block Cours %}
+
+  {% endblock %}
+    {% endblock %}
