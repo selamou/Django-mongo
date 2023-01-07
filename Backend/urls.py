@@ -27,6 +27,7 @@ urlpatterns = [
 
     path("home/", TemplateView.as_view(template_name="home.html"), name="home"),
         path("detail/<int:id>/", views.cour, name="detail"),
+        path("detail/<int:id>/<str:titre>/<str:type>", views.edit_post, name="modifier"),
         path("detailTD/<int:id>/", views.Tdd, name="detailTD"),
         path("detailTP/<int:id>/", views.Tpp, name="detailTP"),
          path("detail/<int:id>/uploadcours", views.uploadcours, name="uploadcours"),

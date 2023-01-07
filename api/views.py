@@ -1,26 +1,42 @@
 
-from contextlib import nullcontext
-import json
-from urllib import response
 from rest_framework.decorators import api_view
-from rest_framework import status
 from django.http import HttpResponse
-from wsgiref.util import FileWrapper
 
 from api.forms import PostCours, PostTd, PostTp
 from .models import EtudientProfile, Filiere, Matiere,Cours, ProfProfile, Td, Tp, User
 from .serializer import  MatiereSerializer,CoursSerializer, ProfDserilizer, RegisterprofSerializer, RegisteruserSerializer, TdSerializer, TpSerializer, filierSerializer, loginSerializer, loginprofSerializer, loginuserSerializer, updateseriliser
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework.parsers import MultiPartParser
 from django.http import *
 from django.shortcuts import render,redirect
-from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+def edit_post(request, id,titre,type):
+    Cou = get_object_or_404(Cours, titre=titre)
+
+    if request.method == 'GET':
+        context = {'form': PostCours(instance=Cou), 'Appartient': id,'id':id}
+        return render(request,'uploadcours.html',context)
+    if request.method == "POST":
+            a=Matiere.objects.get(id=request.POST["Appartient"])
+
+            Cours.objects.get(titre=request.POST["titre"]).delete()
+            Cours.objects.create(titre=request.POST["titre"],description=request.POST["description"],pdf_cours=request.FILES['pdf_cours'],Appartient=a)
+
+            return redirect('detail' ,id=id)    
+    # elif request.method == 'POST':
+    #     form = PostCours(request.POST, instance=post)
+    #     if form.is_valid():
+    #         form.save()
+    #         messages.success(request, 'The post has been updated successfully.')
+    #         return redirect('posts')
+    #     else:
+    #         messages.error(request, 'Please correct the following errors:')
+    #         return render(request,'blog/post_form.html',{'form':form})
+
 def uploadTD(request,id):
     if request.method == "POST":
             a=Matiere.objects.get(id=request.POST["Appartient"])
