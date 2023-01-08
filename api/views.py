@@ -224,7 +224,7 @@ def main(request):
     return HttpResponseRedirect('/')
 
 # Create your views here.
-@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
 @api_view(['GET'])
 def myfiles(request ):
         parser_classes = ( MultiPartParser,)
