@@ -1,39 +1,16 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'baseprof.html' %}
+{% load static %}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-
-        <a class="navbar-brand">prof {{ user.username }}</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMen" aria-controls="mainMen" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-  <div class="collapse navbar-collapse" id="mainMen">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item">
-        <a class="nav-link " href="{% url 'home'  %}">Home</a>
-      </li>
-      <li class="nav-item ">
-        <a class="nav-link " href="{% url 'matier'  user.id %}">Matiere </a>
-      </li>
-
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      
-      <a class="btn btn-outline-success my-2 my-sm-0" href="{% url 'logout' %}">logout</a>
-    </form>
-    
-  </div>
-
-</nav>
 {% block contenu %}
 
 
 
 
-
 <section style="background-color: #eee;">
-    <div class="text-center container py-5">
-      <h4 class="mt-4 mb-5"><strong> votre matiere </strong></h4>
+  <h4 class="text-center mt-4 mb-5"><strong> vos matiere </strong></h4>
+
+    <div class="text-center container ">
+
   
       <div class="row">
 
@@ -70,5 +47,4 @@
     </div>
   </section>
 
-    {% endblock %}
 {% endblock %}

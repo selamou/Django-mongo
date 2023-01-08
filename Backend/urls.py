@@ -25,16 +25,18 @@ urlpatterns = [
     path('etd/register/', views.RegisteruserAPI.as_view(), name='registeretd'),
     path('etd/login/', views.LoginuserAPI.as_view(), name='registerprof'),
 
-    path("home/", TemplateView.as_view(template_name="home.html"), name="home"),
+    path("", TemplateView.as_view(template_name="home.html"), name="home"),
         path("detail/<int:id>/", views.cour, name="detail"),
         path("detail/<int:id>/<str:titre>/<str:type>", views.edit_post, name="modifier"),
+        
+        path("detaildel/<int:id>/<str:titre>/<str:type>", views.delete_post, name="supprimer"),
         path("detailTD/<int:id>/", views.Tdd, name="detailTD"),
         path("detailTP/<int:id>/", views.Tpp, name="detailTP"),
          path("detail/<int:id>/uploadcours", views.uploadcours, name="uploadcours"),
          path("detailTD/<int:id>/uploadTD", views.uploadTD, name="uploadTD"),
          path("detailTP/<int:id>/uploadTP", views.uploadTP, name="uploadTP"),
     path('Logou/', views.main,name="logout"),
-    path('', views.login_user,name="login"),
+    path('login/', views.login_user,name="login"),
     path('matier/<int:id>/', views.matier,name="matier"),
     path('download/<str:type>/<str:titre>', views.download,name="download"),
 ]

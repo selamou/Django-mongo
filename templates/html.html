@@ -1,0 +1,24 @@
+{% load static%}
+<!-- templates/base.html -->
+
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+      
+      <link href="{%static 'css/bla.css'%}" rel="stylesheet">
+      {% block stylesheet %}{% endblock %}
+
+</head>
+{% block bla %}{% endblock %}
+
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+</body>
+</html>

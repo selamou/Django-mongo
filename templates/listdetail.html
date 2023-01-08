@@ -3,6 +3,8 @@
 
 
 {% block contenu %}
+<section style="background-color: #eee;"  >
+  <div class="text-center container ">
 <nav class="navbar navbar-expand-sm navbar-dark  bg-dark">
     <div class="container"> 
       <a class="navbar-brand" href="{% url 'detail'  id %}">Cours</a>
@@ -26,11 +28,14 @@
             <a class="nav-link " href="{% url 'detailTP'  id %}">TP</a>
           </li>
         </ul>
-           
+      
+          
+        
   
       </div>
     </div>
   </nav>
+
   {% block Cours %}
 
   {% endblock %}

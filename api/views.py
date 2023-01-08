@@ -14,29 +14,90 @@ from django.http import *
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+@login_required(login_url='/login/')
 def edit_post(request, id,titre,type):
-    Cou = get_object_or_404(Cours, titre=titre)
+    if type=="cours":
+        Cou = get_object_or_404(Cours, titre=titre)
 
-    if request.method == 'GET':
-        context = {'form': PostCours(instance=Cou), 'Appartient': id,'id':id}
-        return render(request,'uploadcours.html',context)
-    if request.method == "POST":
-            a=Matiere.objects.get(id=request.POST["Appartient"])
+        if request.method == 'GET':
+            context = {'form': PostCours(instance=Cou), 'Appartient': id,'id':id ,'type':type}
+            return render(request,'modifier.html',context)
+        if request.method == "POST":
+                a=Matiere.objects.get(id=request.POST["Appartient"])
 
-            Cours.objects.get(titre=request.POST["titre"]).delete()
-            Cours.objects.create(titre=request.POST["titre"],description=request.POST["description"],pdf_cours=request.FILES['pdf_cours'],Appartient=a)
+                Cours.objects.get(titre=request.POST["titre"]).delete()
+                Cours.objects.create(titre=request.POST["titre"],description=request.POST["description"],pdf_cours=request.FILES['pdf_cours'],Appartient=a)
 
-            return redirect('detail' ,id=id)    
-    # elif request.method == 'POST':
-    #     form = PostCours(request.POST, instance=post)
-    #     if form.is_valid():
-    #         form.save()
-    #         messages.success(request, 'The post has been updated successfully.')
-    #         return redirect('posts')
-    #     else:
-    #         messages.error(request, 'Please correct the following errors:')
-    #         return render(request,'blog/post_form.html',{'form':form})
+                return redirect('detail' ,id=id ) 
+    elif type=="TD":
+        t = get_object_or_404(Td, titre=titre)
 
+        if request.method == 'GET':
+            context = {'form': PostTd(instance=t), 'Appartient': id,'id':id,'type':type}
+            return render(request,'modifier.html',context)
+        if request.method == "POST":
+            k = get_object_or_404(Td, titre=titre)
+            pdf_TD_correction = request.FILES.get('pdf_TD_correction', False)
+            pdf_TD = request.FILES.get('pdf_TD', False)
+            if pdf_TD_correction == False:
+                if pdf_TD ==False:
+                    print("vide") 
+
+                else: 
+                    print("vide1")
+                    a=Matiere.objects.get(id=request.POST["Appartient"])
+                    Td.objects.create(titre=request.POST["titre"],description=request.POST["description"],pdf_TD=request.FILES['pdf_TD'],pdf_TD_correction=k.pdf_TD_correction,Appartient=a)
+
+                    Td.objects.get(titre=request.POST["titre"]).delete()
+                    
+            else:
+                if pdf_TD ==False:
+                    print("vide2")
+                    a=Matiere.objects.get(id=request.POST["Appartient"])
+                    Td.objects.get(titre=request.POST["titre"]).delete()
+                    Td.objects.create(titre=request.POST["titre"],description=request.POST["description"],pdf_TD=k.pdf_TD,pdf_TD_correction=request.FILES['pdf_TD_correction'],Appartient=a)
+
+                    
+                    
+                else:
+                    print("aucune changement") 
+
+            return redirect('detailTD' ,id=id)
+    elif type=="TP":
+            t = get_object_or_404(Tp, titre=titre)
+
+            if request.method == 'GET':
+                context = {'form': PostTp(instance=t), 'Appartient': id,'id':id ,'type':type}
+                return render(request,'modifier.html',context)
+            if request.method == "POST":
+                    a=Matiere.objects.get(id=request.POST["Appartient"])
+                    pdf_TP = request.FILES.get('pdf_TP', False)
+                    if pdf_TP==False:
+                        print('vide')
+                    else: 
+                        Tp.objects.get(titre=request.POST["titre"]).delete()
+                        Tp.objects.create(titre=request.POST["titre"],description=request.POST["description"],pdf_TP=request.FILES['pdf_TP'],Appartient=a)
+
+
+
+                    return redirect('detailTP' ,id=id )  
+
+@login_required(login_url='/login/')      
+def delete_post(request, id,titre,type):
+
+    if type=="cours":
+                Cours.objects.get(titre=titre).delete()
+                return redirect('detail' ,id=id ) 
+    elif type=="TD":
+            
+            Td.objects.get(titre=titre).delete()
+            return redirect('detailTD' ,id=id)
+    elif type=="TP":
+                    print("bll")
+                    Tp.objects.get(titre=titre).delete()
+                    return redirect('detailTP' ,id=id ) 
+
+@login_required(login_url='/login/')
 def uploadTD(request,id):
     if request.method == "POST":
             a=Matiere.objects.get(id=request.POST["Appartient"])
@@ -51,6 +112,7 @@ def uploadTD(request,id):
     else:
         form = PostTd()
     return render(request,'uploadcours.html',{'form':form,'id':id,'type':"TD"})
+@login_required(login_url='/login/')
 def uploadTP(request,id):
     if request.method == "POST":
             a=Matiere.objects.get(id=request.POST["Appartient"])
@@ -61,6 +123,7 @@ def uploadTP(request,id):
     else:
         form = PostTp()
     return render(request,'uploadcours.html',{'form':form,'id':id,'type':"TP"})
+@login_required(login_url='/login/')
 def download(request,type,titre):
         if type=="cours":
             queryset = Cours.objects.get(titre=titre)  
@@ -83,7 +146,7 @@ def download(request,type,titre):
             response['Content-Disposition'] = 'attachment; filename=%s' % queryset.pdf_TP
             return response
 
-
+@login_required(login_url='/login/')
 def uploadcours(request,id):
     if request.method == "POST":
             a=Matiere.objects.get(id=request.POST["Appartient"])
@@ -107,20 +170,21 @@ def login_user(request):
             print(a)
             if ProfProfile.objects.filter(user=a):
                 login(request, user)
-                return HttpResponseRedirect('/home/')
+                return redirect('matier' ,id=a.id)
             else:
                 print(user)
                 return HttpResponse("user not ok")
         else:
                 return HttpResponse("user dont exist")                
     return render(request, 'registration/login.html')
-
+@login_required(login_url='/login/')
 def matier(request,id):
 
     matier = Matiere.objects.filter(prof=id)
     print(matier)
 
     return render(request,'matier.html',{'matier':matier})
+@login_required(login_url='/login/')
 def cour(request,id):
 
     Cor = Cours.objects.filter(Appartient=id)
@@ -131,6 +195,7 @@ def cour(request,id):
         print("not vide")
 
     return render(request,'cours.html',{'cour':Cor,'id':id})
+@login_required(login_url='/login/')
 def Tdd(request,id):
 
     Cor = Td.objects.filter(Appartient=id)
@@ -141,6 +206,7 @@ def Tdd(request,id):
         print("not vide")
 
     return render(request,'td.html',{'TD':Cor,'id':id})
+@login_required(login_url='/login/')
 def Tpp(request,id):
 
     Cor = Tp.objects.filter(Appartient=id)
@@ -158,6 +224,7 @@ def main(request):
     return HttpResponseRedirect('/')
 
 # Create your views here.
+@login_required(login_url='/login/')
 @api_view(['GET'])
 def myfiles(request ):
         parser_classes = ( MultiPartParser,)
