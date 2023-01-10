@@ -1,0 +1,90 @@
+{% extends 'admin/baseadmin.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+
+    {% block cont %}
+    <section style="background-color: #eee;"  >
+        <div class="text-center container ">
+      <nav class="navbar navbar-expand-sm navbar-dark  bg-dark">
+          <div class="container"> 
+        
+            <div class="collapse navbar-collapse" id="mainMenu">
+              
+              <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      
+                <!-- <li class="nav-item ">
+                  <a class="nav-link active" href="{% url 'matier'  user.id %}">Matiere </a>
+                </li> -->
+                <li class="nav-item">
+                  <a class="nav-link active" href="{% url 'admin'  %}">Prof's</a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link " href="#">Etudiant's</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link " href="#">Filiere's</a>
+                  </li>
+                  <li class="nav-item ">
+                    <a class="nav-link " href="#">Matiere's</a>
+                  </li>
+              </ul>
+            
+                
+              
+        
+            </div>
+          </div>
+        </nav>
+    
+  {% endblock %}
+  {% block prof %}
+  
+  <h4 class="mt-4 mb-5"><strong> Ajoute un nouveau prof &nbsp;&nbsp;&nbsp; <a href="{% url 'uploadprof' %}" class="btn btn-outline-secondary">ADD</a></strong></h4>
+  
+    <div class="text-center container ">
+
+
+      <div class="row">
+
+        {% for board in prof%}
+
+        <div class="col-lg-4 col-md-12 mb-4">
+            <div class="card py-4"  >
+              <div class="card-body " style="height: 150px;">
+                <a href="#" class="text-reset">
+                    <h6 class="card-title mb-3 ">{{board.user.username}} Matiere's </h6>
+                  </a>
+                <p  class="text-reset">prof Username:{{board.user.username}}</p>
+                  <p  class="text-reset">description : {{board.user.email}}</p>
+                
+                <!-- <p  class="text-reset">filiere : </p> -->
+                {%  if board.user.phone  %}
+                <p  class="text-reset">phone :{{board.user.phone}} </p>
+        {% else %}
+        {% endif %}
+       
+        <a href="{% url 'modifieradmin' board.user.id 'prof' %}" class="btn btn-outline-secondary">modifier</a>
+        
+&nbsp;&nbsp;
+<a href="{% url 'deleteadmin' board.user.id 'prof' %}" class="btn btn-outline-secondary">Supprimmer</a>
+              </div>
+            </div>
+          </div>
+        {%endfor%}
+
+
+  
+        
+        </div>
+      </div>
+  
+
+    </div>
+    {% endblock %}
+  </section>
+
+{% endblock %}

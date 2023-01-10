@@ -13,3 +13,12 @@ class PostTp(forms.ModelForm):
      class Meta:
         model = Tp
         fields = ('titre', 'description', 'pdf_TP')
+class PostProf(forms.ModelForm):
+     class Meta:
+        model = User
+        fields = ('id', 'username', 'email', 'password','phone')
+        extra_kwargs = {'password': {'write_only': True}}
+class EditProf(forms.ModelForm):
+     class Meta:
+        model = User
+        fields = ('id', 'username', 'email','phone')

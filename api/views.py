@@ -2,7 +2,7 @@
 from rest_framework.decorators import api_view
 from django.http import HttpResponse
 
-from api.forms import PostCours, PostTd, PostTp
+from api.forms import EditProf, PostCours, PostProf, PostTd, PostTp
 from .models import EtudientProfile, Filiere, Matiere,Cours, ProfProfile, Td, Tp, User
 from .serializer import  MatiereSerializer,CoursSerializer, ProfDserilizer, RegisterprofSerializer, RegisteruserSerializer, TdSerializer, TpSerializer, filierSerializer, loginSerializer, loginprofSerializer, loginuserSerializer, updateseriliser
 from rest_framework import viewsets
@@ -157,6 +157,49 @@ def uploadcours(request,id):
     else:
         form = PostCours()
     return render(request,'uploadcours.html',{'form':form,'id':id,'type':"Cours"})
+@login_required(login_url='/login/')
+def uploadproff(request):
+    if request.method == "POST":
+            print('ok')
+            a = User.objects.create_user(username=request.POST['username'],email= request.POST['email'],password= request.POST['password'],phone= request.POST['phone'])
+            print(a)
+            user = ProfProfile.objects.create(user=a)
+            return redirect('admin' )
+    else:
+        form = PostProf()
+    return render(request,'admin/addprof.html',{'form':form})
+@login_required(login_url='/login/')
+def edit_prof(request, id,type):
+    if type=="prof":
+        Cou = get_object_or_404(User, id=id)
+
+        if request.method == 'GET':
+            context = {'form': EditProf(instance=Cou),'type':type}
+            return render(request,'admin/modifier.html',context)
+        if request.method == "POST":
+                a=get_object_or_404(User, id=id)
+                
+                User.objects.get(id=id).delete()
+                print(a.password)
+                User.objects.create_user(id=a.id,username=request.POST['username'],email= request.POST['email'],password= a.password,phone= request.POST['phone'])
+                
+                b=get_object_or_404(User, id=id)
+                ProfProfile.objects.create(user=b)
+                return redirect('admin'  ) 
+@login_required(login_url='/login/')      
+def delete_prof(request,id,type):
+
+    if type=="prof":
+                User.objects.get(id=id).delete()
+                return redirect('admin' ) 
+    # elif type=="TD":
+            # .delete()
+    #         Td.objects.get(titre=titre).delete()
+    #         return redirect('detailTD' ,id=id)
+    # elif type=="TP":
+    #                 print("bll")
+    #                 Tp.objects.get(titre=titre).delete()
+    #                 return redirect('detailTP' ,id=id ) 
 def login_user(request):
     logout(request)
     username = password = ''
@@ -171,9 +214,13 @@ def login_user(request):
             if ProfProfile.objects.filter(user=a):
                 login(request, user)
                 return redirect('matier' ,id=a.id)
-            else:
+            elif EtudientProfile.objects.filter(user=a):
                 print(user)
-                return HttpResponse("user not ok")
+                return HttpResponse("user is etudient") 
+            else:
+                
+                login(request, user)
+                return HttpResponseRedirect('/admin')
         else:
                 return HttpResponse("user dont exist")                
     return render(request, 'registration/login.html')
@@ -184,6 +231,12 @@ def matier(request,id):
     print(matier)
 
     return render(request,'matier.html',{'matier':matier})
+@login_required(login_url='/login/')
+def admin(request):
+    prof = ProfProfile.objects.all()
+    print(prof)
+
+    return render(request,'admin/home.html',{'prof':prof})
 @login_required(login_url='/login/')
 def cour(request,id):
 

@@ -1,0 +1,58 @@
+{% load static%}
+<!-- templates/base.html -->
+
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->	
+      <!-- <link rel="icon" type="image/png" href="{%static 'images/icons/favicon.ico'%}"/> -->
+    <!--===============================================================================================-->
+      <link rel="stylesheet" type="text/css" href="{%static 'vendor/bootstrap/css/bootstrap.min.css'%}">
+    <!--===============================================================================================-->
+      <link rel="stylesheet" type="text/css" href="{%static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css'%}">
+    <!--===============================================================================================-->
+      <link rel="stylesheet" type="text/css" href="{%static 'vendor/animate/animate.css'%}">
+    <!--===============================================================================================-->	
+      <link rel="stylesheet" type="text/css" href="{%static 'vendor/css-hamburgers/hamburgers.min.css'%}">
+    <!--===============================================================================================-->
+      <link rel="stylesheet" type="text/css" href="{%static 'vendor/select2/select2.min.css'%}">
+    <!--===============================================================================================-->
+      <link rel="stylesheet" type="text/css" href="{%static 'css/util.css'%}">
+      <link rel="stylesheet" type="text/css" href="{%static 'css/main.css'%}">
+      
+      <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+<body style="background-color: #eee;">
+
+  <main>
+    <nav class="navbar navbar-expand-lg py-2 " style="background: #37517e;">
+        &nbsp;<a class="navbar-brand" href="#" aria-disabled="true">admin {{ user.username }}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMen" aria-controls="mainMen" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+        <div class="collapse navbar-collapse" id="mainMen">
+      
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      
+            <li class="nav-item">
+              <a class="nav-link " href="{% url 'admin' %}">Home</a>
+            </li>
+        
+      
+          </ul>
+          <a class="nav-link " href="{% url 'logout' %}">logout &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>&nbsp;&nbsp;&nbsp;
+          
+        </div>
+      
+      </nav>
+    {% block content %}
+    {% endblock %}
+  </main>
+</body>
+</html>

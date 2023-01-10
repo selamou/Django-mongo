@@ -66,5 +66,7 @@ class ProfProfile(models.Model):
 class EtudientProfile(models.Model):
     user = models.OneToOneField('User', related_name='student_profile', on_delete=models.CASCADE,primary_key=True)
     id_filiere= models.ForeignKey('Filiere',related_name="Filiere", on_delete=models.CASCADE )
+    def __str__(self):
+        return self.user.username
     
 

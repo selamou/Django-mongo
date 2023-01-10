@@ -16,7 +16,7 @@ router.register('ajoutcours', views.Coursview,'ajout')
 
 urlpatterns = [
     path('api', include(router.urls)), 
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),
     path('prof/', views.detail_Prof),
     path('ak/', views.myfiles),
     path('etd/update/', views.update.as_view(), name="Update"),
@@ -39,5 +39,10 @@ urlpatterns = [
     path('login/', views.login_user,name="login"),
     path('matier/<int:id>/', views.matier,name="matier"),
     path('download/<str:type>/<str:titre>', views.download,name="download"),
+
+    path('admin/', views.admin,name="admin"),
+    path("proff/", views.uploadproff, name="uploadprof"),
+    path("del/<int:id>/<str:type>", views.delete_prof, name="deleteadmin"),
+    path("modif/<int:id>/<str:type>", views.edit_prof, name="modifieradmin"),
 ]
 
