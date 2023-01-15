@@ -2,7 +2,7 @@
 from rest_framework.decorators import api_view
 from django.http import HttpResponse
 
-from api.forms import EditProf, PostCours, PostProf, PostTd, PostTp
+from api.forms import EditProf, Editfil, Edituser, PostCours, PostEtd, PostProf, PostTd, PostTp, Postuser
 from .models import EtudientProfile, Filiere, Matiere,Cours, ProfProfile, Td, Tp, User
 from .serializer import  MatiereSerializer,CoursSerializer, ProfDserilizer, RegisterprofSerializer, RegisteruserSerializer, TdSerializer, TpSerializer, filierSerializer, loginSerializer, loginprofSerializer, loginuserSerializer, updateseriliser
 from rest_framework import viewsets
@@ -169,6 +169,29 @@ def uploadproff(request):
         form = PostProf()
     return render(request,'admin/addprof.html',{'form':form})
 @login_required(login_url='/login/')
+def uploadfil(request):
+    if request.method == "POST":
+            print('ok')
+            a = Filiere.objects.create(nom_Filiere=request.POST['nom_Filiere'])
+            print(a)
+            return redirect('adminfil' )
+    else:
+        form = Editfil()
+    return render(request,'admin/addprof.html',{'form':form})
+@login_required(login_url='/login/')
+def uploadetdd(request):
+    if request.method == "POST":
+            print('ok')
+            a = User.objects.create_user(username=request.POST['username'],email= request.POST['email'],password= request.POST['password'],NNI= request.POST['NNI'])
+            print(a)
+            b = Filiere.objects.get(id=request.POST['id_filiere'])
+            user = EtudientProfile.objects.create(user=a,id_filiere=b)
+            return redirect('adminetd' )
+    else:
+        form2 = Postuser()
+        form = PostEtd()
+    return render(request,'admin/addetd.html',{'form':form2,'form2':form})
+@login_required(login_url='/login/')
 def edit_prof(request, id,type):
     if type=="prof":
         Cou = get_object_or_404(User, id=id)
@@ -186,13 +209,49 @@ def edit_prof(request, id,type):
                 b=get_object_or_404(User, id=id)
                 ProfProfile.objects.create(user=b)
                 return redirect('admin'  ) 
+    if type=="etd":
+        Cou = get_object_or_404(User, id=id)
+        C = get_object_or_404(EtudientProfile, user=Cou)
+
+        if request.method == 'GET':
+            context = {'form': Edituser(instance=Cou),'form2': PostEtd(instance=C),'type':type}
+            return render(request,'admin/modifier2.html',context)
+        if request.method == "POST":
+                a=get_object_or_404(User, id=id)
+                bl = get_object_or_404(EtudientProfile, user=a)
+                User.objects.get(id=id).delete()
+                print(a.password)
+                User.objects.create_user(id=a.id,username=request.POST['username'],email= request.POST['email'],password= a.password,NNI= request.POST['NNI'])
+                
+                b=get_object_or_404(User, id=id)
+                EtudientProfile.objects.create(user=b,id_filiere=bl.id_filiere)
+                return redirect('adminetd'  )
+    if type=="fil":
+        Cou = get_object_or_404(Filiere, id=id)
+
+        if request.method == 'GET':
+            context = {'form': Editfil(instance=Cou),'type':type}
+            return render(request,'admin/modifier.html',context)
+        if request.method == "POST":
+                a=get_object_or_404(Filiere, id=id)
+                
+                Filiere.objects.get(id=id).delete()
+                Filiere.objects.create(id=a.id,nom_Filiere=request.POST['nom_Filiere'])
+               
+                return redirect('adminfil'  ) 
+
 @login_required(login_url='/login/')      
 def delete_prof(request,id,type):
 
     if type=="prof":
                 User.objects.get(id=id).delete()
                 return redirect('admin' ) 
-    # elif type=="TD":
+    elif type=="etd":
+         User.objects.get(id=id).delete()
+         return redirect('adminetd' ) 
+    elif type=="fil":
+         Filiere.objects.get(id=id).delete()
+         return redirect('adminfil' )
             # .delete()
     #         Td.objects.get(titre=titre).delete()
     #         return redirect('detailTD' ,id=id)
@@ -237,6 +296,18 @@ def admin(request):
     print(prof)
 
     return render(request,'admin/home.html',{'prof':prof})
+@login_required(login_url='/login/')
+def adminetd(request):
+    etd = EtudientProfile.objects.all()
+    print(etd)
+
+    return render(request,'admin/etd.html',{'etd':etd})
+@login_required(login_url='/login/')
+def adminfil(request):
+    etd = Filiere.objects.all()
+    print(etd)
+
+    return render(request,'admin/fil.html',{'fil':etd})
 @login_required(login_url='/login/')
 def cour(request,id):
 

@@ -22,3 +22,20 @@ class EditProf(forms.ModelForm):
      class Meta:
         model = User
         fields = ('id', 'username', 'email','phone')
+class PostEtd(forms.ModelForm):
+     class Meta:
+        model = EtudientProfile
+        fields = ('id_filiere',)
+class Postuser(forms.ModelForm):
+     class Meta:
+        model = User
+        fields = ('id', 'username', 'email', 'password','NNI')
+        extra_kwargs = {'password': {'write_only': True}}
+class Edituser(forms.ModelForm):
+     class Meta:
+        model = User
+        fields = ('id', 'username', 'email','NNI')
+class Editfil(forms.ModelForm):
+     class Meta:
+        model = Filiere
+        fields = ('__all__')
