@@ -13,7 +13,7 @@ grid_fs_storage = GridFSStorage(collection='myfiles', base_url=''.join(['/', 'my
 class Matiere(models.Model) :
     name = models.CharField(max_length=50, unique = True)
     description = models.CharField(max_length=150)
-    image_matiere = models.FileField(upload_to="static/upload/images",blank=True)
+    image_matiere = models.FileField(upload_to="static/upload/images",blank=True, default='static/upload/images/mrt.jpg')
     prof=models.ForeignKey('ProfProfile', on_delete=models.CASCADE)
     filiere=models.ForeignKey('Filiere', on_delete=models.CASCADE)
     def __str__(self):

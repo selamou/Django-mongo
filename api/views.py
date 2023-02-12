@@ -2,7 +2,7 @@
 from rest_framework.decorators import api_view
 from django.http import HttpResponse
 
-from api.forms import EditProf, Editfil, Edituser, PostCours, PostEtd, PostProf, PostTd, PostTp, Postuser
+from api.forms import EditProf, Editfil, Editmat, Edituser, PostCours, PostEtd, PostProf, PostTd, PostTp, Postuser
 from .models import EtudientProfile, Filiere, Matiere,Cours, ProfProfile, Td, Tp, User
 from .serializer import  MatiereSerializer,CoursSerializer, ProfDserilizer, RegisterprofSerializer, RegisteruserSerializer, TdSerializer, TpSerializer, filierSerializer, loginSerializer, loginprofSerializer, loginuserSerializer, updateseriliser
 from rest_framework import viewsets
@@ -179,6 +179,27 @@ def uploadfil(request):
         form = Editfil()
     return render(request,'admin/addprof.html',{'form':form})
 @login_required(login_url='/login/')
+def uploadmat(request):
+    if request.method == "POST":
+            # print(request.FILES['image_matiere'])
+            a=Filiere.objects.get(id=request.POST["filiere"])
+            b=ProfProfile.objects.get(user_id =request.POST["prof"])
+            print(b)
+            print(request.FILES['image_matiere'])
+            if len(request.FILES) == 0:
+                 Matiere.objects.create(name=request.POST["name"],description=request.POST["description"],prof=b,filiere=a)
+            else:
+                print(request.FILES['image_matiere'])
+                Matiere.objects.create(name=request.POST["name"],description=request.POST["description"],image_matiere=request.FILES['image_matiere'], prof=b,filiere=a)
+            
+
+            # a = Filiere.objects.create(nom_Filiere=request.POST['nom_Filiere'])
+            # print(a)
+            return redirect('adminmat' )
+    else:
+        form = Editmat()
+    return render(request,'admin/addmat.html',{'form':form})
+@login_required(login_url='/login/')
 def uploadetdd(request):
     if request.method == "POST":
             print('ok')
@@ -239,6 +260,24 @@ def edit_prof(request, id,type):
                 Filiere.objects.create(id=a.id,nom_Filiere=request.POST['nom_Filiere'])
                
                 return redirect('adminfil'  ) 
+    if type=="mat":
+        cou= get_object_or_404(Matiere,id=id)
+        if request.method == 'GET':
+            context = {'form': Editmat(instance=cou),'type':type}
+            return render(request,'admin/modifier.html',context)
+        if request.method == "POST":
+                k=get_object_or_404(Matiere, id=id)
+                Matiere.objects.get(id=id).delete()
+                a=Filiere.objects.get(id=request.POST["filiere"])
+                b=ProfProfile.objects.get(user_id =request.POST["prof"])
+                if len(request.FILES) == 0:
+                    Matiere.objects.create(id=k.id,name=request.POST["name"],description=request.POST["description"],image_matiere=k.image_matiere,prof=b,filiere=a)
+                else:
+                    print(request.FILES['image_matiere'])
+                    Matiere.objects.create(id=k.id,name=request.POST["name"],description=request.POST["description"],image_matiere=request.FILES['image_matiere'], prof=b,filiere=a)
+                return redirect('adminmat'  )
+
+        
 
 @login_required(login_url='/login/')      
 def delete_prof(request,id,type):
@@ -252,6 +291,9 @@ def delete_prof(request,id,type):
     elif type=="fil":
          Filiere.objects.get(id=id).delete()
          return redirect('adminfil' )
+    elif type=="mat":
+        Matiere.objects.get(id=id).delete()
+        return redirect('adminmat')
             # .delete()
     #         Td.objects.get(titre=titre).delete()
     #         return redirect('detailTD' ,id=id)
@@ -308,6 +350,12 @@ def adminfil(request):
     print(etd)
 
     return render(request,'admin/fil.html',{'fil':etd})
+@login_required(login_url='/login/')
+def adminmat(request):
+    etd = Matiere.objects.all()
+    print(etd)
+
+    return render(request,'admin/adminmat.html',{'adminmat':etd})
 @login_required(login_url='/login/')
 def cour(request,id):
 

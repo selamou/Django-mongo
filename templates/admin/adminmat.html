@@ -26,10 +26,10 @@
                   <a class="nav-link  " href="{% url 'adminetd'  %}">Etudiant's</a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link active " href="{% url 'adminfil'  %}">Filiere's</a>
+                    <a class="nav-link  " href="{% url 'adminfil'  %}">Filiere's</a>
                   </li>
                   <li class="nav-item ">
-                    <a class="nav-link " href="{% url 'adminmat'  %}">Matiere's</a>
+                    <a class="nav-link active" href="{% url 'adminmat'  %}">Matiere's</a>
                   </li>
               </ul>
             
@@ -43,14 +43,14 @@
   {% endblock %}
   {% block prof %}
   
-  <h4 class="mt-4 mb-5"><strong> Ajoute un nouveau Filiere &nbsp;&nbsp;&nbsp; <a href="{% url 'uploadfil' %}" class="btn btn-outline-secondary">ADD</a></strong></h4>
+  <h4 class="mt-5 mb-5"><strong> Ajoute un nouveau matiere  &nbsp;&nbsp;&nbsp; <a href="{% url 'uploadmatier' %}" class="btn btn-outline-secondary">ADD</a></strong></h4>
   <!-- {% url 'uploadetd' %} -->
     <div class="text-center container ">
 
 
       <div class="row">
 
-        {% for board in fil%}
+        {% for board in adminmat%}
 
         <div class="col-lg-4 col-md-12 mb-4">
             <div class="card py-4"  >
@@ -58,20 +58,24 @@
                 <!-- <a href="#" class="text-reset">
                     <h6 class="card-title mb-3 "> Filiere </h6>
                   </a> -->
-                <p  class="text-reset"> Filiere :{{board.nom_Filiere}}</p>
+                <p  class="text-reset"> name :{{board.name}}</p>
+                <p  class="text-reset"> description :{{board.description}}</p>
+                <p  class="text-reset"> prof :{{board.prof}}</p>
+                <p  class="text-reset"> filiere :{{board.filiere}}</p>
                   <!-- <p  class="text-reset">Email : {{board.user.email}}</p> -->
                 
                 <!-- <p  class="text-reset">filiere : </p> -->
                 <!-- {%  if board.user.NNI  %}
                 <p  class="text-reset">NNI :{{board.user.NNI}} </p>
-        {% else %}
+        {% else %} {% url 'modifieradmin' board.id 'fil' %} 
+        {% url 'deleteadmin' board.id 'fil' %}
         {% endif %} -->
        
-        <a href="{% url 'modifieradmin' board.id 'fil' %}" class="btn btn-outline-secondary">modifier</a>
+        <a href=" {% url 'modifieradmin' board.id 'mat' %} " class="btn btn-outline-secondary">modifier</a>
 
 &nbsp;&nbsp;
 
-<a href="{% url 'deleteadmin' board.id 'fil' %}" class="btn btn-outline-secondary">Supprimmer</a>
+<a href="{% url 'deleteadmin' board.id 'mat' %}" class="btn btn-outline-secondary">Supprimmer</a>
               </div>
             </div>
           </div>

@@ -43,9 +43,11 @@ urlpatterns = [
     path('admin/', views.admin,name="admin"),
     path('adminetd/', views.adminetd,name="adminetd"),
        path('adminfil/', views.adminfil,name="adminfil"),
+        path('adminmat/', views.adminmat,name="adminmat"),
     path("proff/", views.uploadproff, name="uploadprof"),
      path("etdd/", views.uploadetdd, name="uploadetd"),
      path("fil/", views.uploadfil, name="uploadfil"),
+     path("mat/", views.uploadmat, name="uploadmatier"),
     path("del/<int:id>/<str:type>", views.delete_prof, name="deleteadmin"),
     path("modif/<int:id>/<str:type>", views.edit_prof, name="modifieradmin"),
 ]

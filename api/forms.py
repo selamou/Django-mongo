@@ -39,3 +39,7 @@ class Editfil(forms.ModelForm):
      class Meta:
         model = Filiere
         fields = ('__all__')
+class Editmat(forms.ModelForm):
+     class Meta:
+        model = Matiere
+        fields = ('__all__')
